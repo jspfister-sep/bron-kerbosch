@@ -11,11 +11,13 @@ def bron_kerbosch(r, p, x, maximal_cliques=[], level=0):
             x.add(v)
 
 def bron_kerbosch_with_pivot(r, p, x, maximal_cliques=[], level=0):
-    print(f'{"  " * level}R={r}, P={p}, X={x}{" <--" if not p and not x else ""}')
+    print(f'{"  " * level}R={r}, P={p}, X={x}{" <--" if not p and not x else ""}', end='')
     if not p and not x:
         maximal_cliques.append(r)
+        print('')
     else:
         u = max(p | x, key=lambda s: len(neighbors[s]))
+        print(f' Pivot={u}')
         for v in p - neighbors[u]:
             bron_kerbosch_with_pivot(r | {v}, p & neighbors[v], x & neighbors[v], maximal_cliques, level + 1)
             p.remove(v)
